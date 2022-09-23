@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Evaluation',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -46,88 +47,69 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Transform.rotate(
-                angle: -45 * (pi / 180.0),
-                child: ElevatedButton(
-                  child: const Text("Rotated button"),
-                  onPressed: () {},
-                ),
-            ),
-            Transform(
-              transform: Matrix4.rotationZ(-45 * (pi / 180.0)),
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                child: const Text("Rotated button"),
-                onPressed: () {},
-              ),
-            ),
-            Transform.scale(
-              scale: 2.0,
-              child: ElevatedButton(
-                child: const Text("scaled up"),
-                onPressed: () {},
-              ),
-            ),
-            Transform(
-              transform: Matrix4.identity()..scale(2.0, 2.0),
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                child: const Text("scaled up (matrix)"),
-                onPressed: () {},
-              ),
-            ),
-            Transform.translate(
-              offset: const Offset(100, 300),
-              child: ElevatedButton(
-                child: const Text("translated to bottom"),
-                onPressed: () {},
-              ),
-            ),
-            Transform(
-              transform: Matrix4.translationValues(100, 300, 0),
-              child: ElevatedButton(
-                child: const Text("translated to bottom (matrix)"),
-                onPressed: () {},
-              ),
-            ),
-            Transform.translate(
-              offset: const Offset(70, 200),
-              child: Transform.rotate(
-                angle: -45 * (pi / 180.0),
-                child: Transform.scale(
-                  scale: 2.0,
-                  child: ElevatedButton(
-                    child: const Text("multiple transformations"),
-                    onPressed: () {},
+            AnimatedTextKit(
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  'Catatan Rahasiaku',
+                  textStyle: const TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
                   ),
+                  speed: const Duration(milliseconds: 2000),
                 ),
-              ),
+              ],              
+              totalRepeatCount: 4,
+              pause: const Duration(milliseconds: 1000),
+              displayFullTextOnTap: true,
+              stopPauseOnTap: true,
             ),
-            Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.translationValues(70, 200, 0)
-                ..rotateZ(-45 * (pi / 180.0))
-                ..scale(2.0, 2.0),
-              child: ElevatedButton(
-                child: const Text("multiple transformations (matrix)"),
-                onPressed: () {},
-              ),
-            )
+            ElevatedButton(
+              child: const Text('Continue'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AuthRoute()),
+                );
+              },
+            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+  class AuthRoute extends StatelessWidget  {
+  const AuthRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+          TextField(
+          keyboardType: TextInputType.emailAddress,
+          obscureText: true,
+          decoration: InputDecoration(
+            hintText: 'Password',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.0)
+            )
+          ),
+        ),
+          ElevatedButton(
+                  child: const Text('Login'),
+                  onPressed: () {
+                  },
+                )
+        ]
+        )
+      ),
+    );
+  }
+  }
